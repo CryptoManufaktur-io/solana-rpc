@@ -1,0 +1,27 @@
+[http]
+  [http.routers]
+    [http.routers.rpc]
+      entrypoints = ["websecure"]
+      service = "rpc"
+      rule = "Host(`solana-main-a.example.com`)"
+    [http.routers.rpclb] 
+      entrypoints = ["websecure"]
+      service = "rpc"
+      rule = "Host(`solana-main-lb.example.com`)"
+    [http.routers.ws]
+      entrypoints = ["websecure"]
+      service = "ws"
+      rule = "Host(`solana-mainws-a.example.com`)"
+    [http.routers.wslb]
+      entrypoints = ["websecure"]
+      service = "ws"
+      rule = "Host(`solana-mainws-lb.example.com`)"
+  [http.services]
+    [http.services.rpc]
+      [http.services.rpc.loadBalancer]
+        [[http.services.rpc.loadBalancer.servers]]
+          url = "http://HOSTIP:8899"
+    [http.services.ws]
+      [http.services.ws.loadBalancer]
+        [[http.services.ws.loadBalancer.servers]]
+          url = "http://HOSTIP:8900"
