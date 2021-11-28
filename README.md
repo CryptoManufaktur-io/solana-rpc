@@ -68,7 +68,7 @@ Dedicated / baremetal, Solana will run in systemd, not docker.
 ## Linux prep
 ### Linux tuning
 
-Ubuntu 20.04 LTS, don't even think about anything else
+Ubuntu 20.04 LTS, because that's the supported distribution.
 
 `sudo nano /etc/fstab` and add `,noatime` to options of `/`. Also comment out current swap entries, we'll create a new one.
 
