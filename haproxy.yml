@@ -1,0 +1,37 @@
+x-logging: &logging
+  logging:
+    driver: json-file
+    options:
+      max-size: 20m
+      max-file: "3"
+
+services:
+  solana-haproxy:
+    image: haproxy:latest
+    user: root
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        apt-get update
+        apt-get install -y ca-certificates
+        haproxy -f /usr/local/etc/haproxy/haproxy.cfg
+    networks:
+      default:
+        aliases:
+          - solana-mainws-lb.example.com
+          - solana-main-lb.example.com
+    configs:
+      - source: sol-haproxy.cfg
+        target: /usr/local/etc/haproxy/haproxy.cfg
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: ["node.role == worker"]
+    <<: *logging
+
+version: "3.4"
+
+configs:
+  sol-haproxy.cfg:
+    external: true

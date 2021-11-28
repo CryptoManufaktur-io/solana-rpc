@@ -45,6 +45,10 @@ sudo ufw deny proto tcp from any to any port 443
 sudo ufw enable
 ```
 
+## HAProxy
+
+`sol-haproxy.cfg` is an example configuration file for haproxy. It assumes that haproxy has `ca-certificates` availabe, see `haproxy.yml` for a sample setup.
+
 # Setting up Solana
 
 ## Resources
@@ -52,7 +56,7 @@ sudo ufw enable
 The [official Solana docs](https://docs.solana.com/running-validator) and the [devnet notes](https://github.com/agjell/sol-tutorials/blob/master/setting-up-a-solana-devnet-validator.md) are both helpful.
 The following is an opiniated amalgam of both, for Solana mainnet.
 
-## Hardware
+# Hardware
 
 Dedicated / baremetal, Solana will run in systemd, not docker.
 
@@ -292,7 +296,7 @@ Once that's finished:
 
 It is normal for Solana to take ~30 minutes to catch up after a fresh start.
 
-`grep --ignore-case --extended-regexp 'error|warn' /mnt/sol-logs/validator.log` to see error and warn logs.
+`grep --extended-regexp 'ERROR|WARN' /mnt/sol-logs/validator.log` to see error and warn logs.
 
 `solana epoch-info` to get information about the epoch.
 
