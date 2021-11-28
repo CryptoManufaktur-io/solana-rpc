@@ -47,7 +47,7 @@ sudo ufw enable
 
 ## HAProxy
 
-`sol-haproxy.cfg` is an example configuration file for haproxy. It assumes that haproxy has `ca-certificates` availabe, see `haproxy.yml` for a sample setup.
+`sol-haproxy.cfg` is an example configuration file for haproxy. It assumes that haproxy has `ca-certificates` available, see `haproxy.yml` for a sample setup.
 
 # Setting up Solana
 
