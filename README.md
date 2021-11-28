@@ -157,7 +157,7 @@ Generate identity. We won't need wallet etc because we won't be validating. Keep
 
 ### Prep start command
 
-`nano ~/start-validator.sh` and paste
+You can use the `start-validator.sh` from this repo or `nano ~/start-validator.sh` and paste
 
 ```
 #!/bin/sh
@@ -191,6 +191,7 @@ exec solana-validator \
     --snapshots /mnt/sol-snapshots \
     --no-snapshot-fetch \
     --maximum-snapshots-to-retain 2 \
+    --enable-rpc-transaction-history \
     --no-port-check
 ```
 
@@ -202,6 +203,7 @@ remove the `docker run` command entirely.
 
 `--no-port-check` allows us to a) make RPC available to traefik and b) firewall it off from the world.
 `--no-voting` makes this RPC only, and keeps us from having to pay 1 to 1.1 SOL/day in fees.
+`--enable-rpc-transaction-history` is necessary for websocket subscriptions to work.
 
 Accounts, logs and snapshots are in ram disks.
 
@@ -211,7 +213,7 @@ Come back out of the sol user so you're on a user with root privileges again: `e
 
 Create a service for the Solana validator service.
 
-`sudo nano /etc/systemd/system/validator.service` and paste
+You can use the `validator.service` from this repo or `sudo nano /etc/systemd/system/validator.service` and paste
 
 ```
 [Unit]
@@ -237,7 +239,7 @@ WantedBy=multi-user.target
 
 Create the system tuning service it requires.
 
-`sudo nano /etc/systemd/system/systuner.service` and paste
+You can use the `systuner.service` from this repo or `sudo nano /etc/systemd/system/systuner.service` and paste
 
 ```
 [Unit]
@@ -274,7 +276,7 @@ sudo systemctl status validator.service
 
 Resolve any issues
 
-### Check that validator is running
+### Check that validator is running, useful commands
 
 `sudo su - sol` to become user `sol` again
 
@@ -299,4 +301,6 @@ It is normal for Solana to take ~30 minutes to catch up after a fresh start.
 `htop` to see CPU and memory use.
 
 `sudo iostat -mdx` as a root-capable user to see NVMe utilization, of interest are `r_await` and `w_await`.
+
+`solana-install update` to pull a new version of Solana in the `beta` channel.
 
