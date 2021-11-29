@@ -91,7 +91,7 @@ Create three RAM disks for accounts, logs and snapshots:
 sudo mkdir /mnt/sol-accounts && sudo mkdir /mnt/sol-logs && sudo mkdir /mnt/sol-snapshots
 echo 'tmpfs /mnt/sol-accounts tmpfs rw,noexec,nodev,nosuid,noatime,size=512G,user=sol 0 0' | \
   sudo tee --append /etc/fstab > /dev/null
-echo 'tmpfs /mnt/sol-logs tmpfs rw,noexec,nodev,nosuid,noatime,size=16G,user=sol 0 0' | \
+echo 'tmpfs /mnt/sol-logs tmpfs rw,noexec,nodev,nosuid,noatime,size=56G,user=sol 0 0' | \
   sudo tee --append /etc/fstab > /dev/null
 echo 'tmpfs /mnt/sol-snapshots tmpfs rw,noexec,nodev,nosuid,noatime,size=56G,user=sol 0 0' | \
   sudo tee --append /etc/fstab > /dev/null
