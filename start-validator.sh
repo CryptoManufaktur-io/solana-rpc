@@ -1,5 +1,5 @@
 #!/bin/sh
-find /mnt/sol-snapshots -cmin +60 -exec rm {} \;
+find /mnt/sol-snapshots -type f -name 'snapshot-*' -exec rm {} \;
 docker run --rm \
 -v /mnt/sol-snapshots:/solana/snapshot \
 --user $(id -u):$(id -g) \

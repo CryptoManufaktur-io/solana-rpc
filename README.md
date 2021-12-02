@@ -127,6 +127,8 @@ and paste the following inside it.
   su sol sol
   daily
   rotate 7
+  compress
+  delaycompress
   missingok
   postrotate
     systemctl kill -s USR1 validator.service
@@ -165,7 +167,7 @@ You can use the `start-validator.sh` from this repo or `nano ~/start-validator.s
 
 ```
 #!/bin/sh
-find /mnt/sol-snapshots -cmin +60 -exec rm {} \;
+find /mnt/sol-snapshots -type f -name 'snapshot-*' -exec rm {} \;
 docker run --rm \
 -v /mnt/sol-snapshots:/solana/snapshot \
 --user $(id -u):$(id -g) \
@@ -265,7 +267,7 @@ WantedBy=multi-user.target
 
 ```
 sudo systemctl enable --now systuner.service
-sudo systemctl enable --now systuner.service
+sudo systemctl enable --now validator.service
 ```
 
 Check their status:
