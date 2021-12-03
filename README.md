@@ -167,15 +167,12 @@ You can use the `start-validator.sh` from this repo or `nano ~/start-validator.s
 
 ```
 #!/bin/sh
-find /mnt/sol-snapshots -type f -cmin +4 -exec rm {} \;
-snaps=$(find /mnt/sol-snapshots -type f -name 'snapshot-*')
-if [ -z ${snaps} ]; then
-  docker run --rm \
-  -v /mnt/sol-snapshots:/solana/snapshot \
-  --user $(id -u):$(id -g) \
-  c29r3/solana-snapshot-finder:latest \
-  --snapshot_path /solana/snapshot
-fi
+find /mnt/sol-snapshots -type f -name 'snapshot-*' -exec rm {} \;
+docker run --rm \
+-v /mnt/sol-snapshots:/solana/snapshot \
+--user $(id -u):$(id -g) \
+c29r3/solana-snapshot-finder:latest \
+--snapshot_path /solana/snapshot
 exec solana-validator \
     --identity ~/validator-keypair.json \
     --no-voting \
