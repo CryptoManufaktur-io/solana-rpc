@@ -1,4 +1,10 @@
 #!/bin/sh
+find /mnt/sol-snapshots -type f -name 'snapshot-*' -exec rm {} \;
+docker run --rm \
+-v /mnt/sol-snapshots:/solana/snapshot \
+--user $(id -u):$(id -g) \
+c29r3/solana-snapshot-finder:latest \
+--snapshot_path /solana/snapshot
 exec solana-validator \
     --identity ~/validator-keypair.json \
     --no-voting \
@@ -16,13 +22,12 @@ exec solana-validator \
     --entrypoint entrypoint5.mainnet-beta.solana.com:8001 \
     --expected-genesis-hash 5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d \
     --wal-recovery-mode skip_any_corrupted_record \
-    --limit-ledger-size 50000000 \
+    --limit-ledger-size 100000000 \
     --log /mnt/sol-logs/validator.log \
     --accounts /mnt/sol-accounts/accounts \
     --account-index program-id spl-token-owner spl-token-mint \
-    --account-index-exclude-key kinXdEcpDQeHPEuQnqmUgtYykqKGVFq6CeVX5iAHJq6 \
-    --account-index-exclude-key TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA \
-    --only-known-rpc \
+    --snapshots /mnt/sol-snapshots \
+    --no-snapshot-fetch \
     --maximum-snapshots-to-retain 2 \
     --enable-rpc-transaction-history \
     --no-port-check
