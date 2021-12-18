@@ -88,7 +88,7 @@ sudo usermod -aG docker sol
 Create two RAM disks for accounts, logs:
 
 ```
-sudo mkdir /mnt/sol-accounts && sudo mkdir /mnt/sol-logs && sudo mkdir /mnt/sol-snapshots
+sudo mkdir /mnt/sol-accounts && sudo mkdir /mnt/sol-logs
 echo 'tmpfs /mnt/sol-accounts tmpfs rw,noexec,nodev,nosuid,noatime,size=512G,user=sol 0 0' | \
   sudo tee --append /etc/fstab > /dev/null
 echo 'tmpfs /mnt/sol-logs tmpfs rw,noexec,nodev,nosuid,noatime,size=56G,user=sol 0 0' | \
@@ -190,7 +190,6 @@ exec solana-validator \
     --account-index-exclude-key kinXdEcpDQeHPEuQnqmUgtYykqKGVFq6CeVX5iAHJq6 \
     --account-index-exclude-key TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA \
     --only-known-rpc \
-    --maximum-snapshots-to-retain 2 \
     --enable-rpc-transaction-history \
     --no-port-check
 ```

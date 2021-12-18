@@ -24,6 +24,5 @@ exec solana-validator \
     --account-index-exclude-key kinXdEcpDQeHPEuQnqmUgtYykqKGVFq6CeVX5iAHJq6 \
     --account-index-exclude-key TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA \
     --only-known-rpc \
-    --maximum-snapshots-to-retain 2 \
     --enable-rpc-transaction-history \
     --no-port-check

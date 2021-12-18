@@ -1,7 +1,7 @@
 #!/bin/sh
-find /mnt/sol-snapshots -type f -name 'snapshot-*' -exec rm {} \;
+find /home/sol/ledger -type f -name 'snapshot-*' -exec rm {} \;
 docker run --rm \
--v /mnt/sol-snapshots:/solana/snapshot \
+-v /home/sol/ledger:/solana/snapshot \
 --user $(id -u):$(id -g) \
 c29r3/solana-snapshot-finder:latest \
 --snapshot_path /solana/snapshot
@@ -26,8 +26,6 @@ exec solana-validator \
     --log /mnt/sol-logs/validator.log \
     --accounts /mnt/sol-accounts/accounts \
     --account-index program-id spl-token-owner spl-token-mint \
-    --snapshots /mnt/sol-snapshots \
     --no-snapshot-fetch \
-    --maximum-snapshots-to-retain 2 \
     --enable-rpc-transaction-history \
     --no-port-check
