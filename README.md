@@ -196,15 +196,11 @@ exec solana-validator \
 
 Then `chmod +x ~/start-validator.sh`
 
-This works around a current issue on mainnet beta with getting snapshots from official sources.
-If that's resolved, you could replace `--no-snapshot-fetch` with `--only-known-rpc` and
-remove the `docker run` command entirely.
-
 `--no-port-check` allows us to a) make RPC available to traefik and b) firewall it off from the world.
 `--no-voting` makes this RPC only, and keeps us from having to pay 1 to 1.1 SOL/day in fees.
 `--enable-rpc-transaction-history` is necessary for websocket subscriptions to work.
 
-Accounts, logs and snapshots are in ram disks.
+Accounts and logs are in ram disks.
 
 ### Set up systemd service files
 
