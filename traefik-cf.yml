@@ -53,8 +53,5 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     <<: *logging
-  eth:
-    depends_on:
-      - traefik
 volumes:
   certs:
