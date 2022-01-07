@@ -173,7 +173,7 @@ exec solana-validator \
     --ledger ~/ledger \
     --rpc-port 8899 \
     --gossip-port 8001 \
-    --dynamic-port-range 8002-8012 \
+    --dynamic-port-range 8002-8014 \
     --known-validator 7Np41oeYqPefeNQEHSv1UDhYrehxin3NStELsSKCT4K2 \
     --known-validator GdnSyH3YtwcxFvQrVVJMm1JhTS4QVX7MFsX56uJLUfiZ \
     --known-validator DE1bawNcRJB9rVm3buyMVfr8mBEoyyu73NBovf2oXJsJ \
