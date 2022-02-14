@@ -141,7 +141,7 @@ And then `sudo systemctl restart logrotate`
 ## Solana client
 ### Download client
 
-Do this as user `sol`, so `sudo su - sol` and then `sh -c "$(curl -sSfL https://release.solana.com/v1.8.11/install)"`
+Do this as user `sol`, so `sudo su - sol` and then `sh -c "$(curl -sSfL https://release.solana.com/v1.8.14/install)"`
 
 Paste this into `nano .profile` and then `source .profile`.
 
