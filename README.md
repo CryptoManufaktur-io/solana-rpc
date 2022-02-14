@@ -39,8 +39,8 @@ sudo ufw allow proto tcp from 192.168.0.0/16 to any port 8899
 sudo ufw allow proto tcp from 192.168.0.0/16 to any port 8900
 sudo ufw allow proto tcp from 10.0.0.0/8 to any port 8899
 sudo ufw allow proto tcp from 10.0.0.0/8 to any port 8900
-sudo ufw allow 8001:8012/tcp
-sudo ufw allow 8001:8012/udp
+sudo ufw allow 8001:8014/tcp
+sudo ufw allow 8001:8014/udp
 sudo ufw allow proto tcp from SOURCEIP1 to any port 443 
 sudo ufw allow proto tcp from SOURCEIP2 to any port 443 
 sudo ufw deny proto tcp from any to any port 443 
