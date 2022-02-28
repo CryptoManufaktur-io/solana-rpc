@@ -39,8 +39,8 @@ sudo ufw allow proto tcp from 192.168.0.0/16 to any port 8899
 sudo ufw allow proto tcp from 192.168.0.0/16 to any port 8900
 sudo ufw allow proto tcp from 10.0.0.0/8 to any port 8899
 sudo ufw allow proto tcp from 10.0.0.0/8 to any port 8900
-sudo ufw allow 8001:8014/tcp
-sudo ufw allow 8001:8014/udp
+sudo ufw allow 8001:8016/tcp
+sudo ufw allow 8001:8016/udp
 sudo ufw allow proto tcp from SOURCEIP1 to any port 443 
 sudo ufw allow proto tcp from SOURCEIP2 to any port 443 
 sudo ufw deny proto tcp from any to any port 443 
@@ -141,12 +141,13 @@ And then `sudo systemctl restart logrotate`
 ## Solana client
 ### Download client
 
-Do this as user `sol`, so `sudo su - sol` and then `sh -c "$(curl -sSfL https://release.solana.com/v1.8.14/install)"`
+Become user `sol`: `sudo su - sol`
 
-Paste this into `nano .profile` and then `source .profile`.
+Download and install Solana, replacing the version with the current one: `sh -c "$(curl -sSfL https://release.solana.com/v1.9.9/install)"`
+
+Paste this to the end of `nano .profile` and then `source .profile`.
 
 ```
-export PATH="/home/sol/.local/share/solana/install/active_release/bin:$PATH"
 export SOLANA_METRICS_CONFIG="host=https://metrics.solana.com:8086,db=mainnet-beta,u=mainnet-beta_write,p=password"
 ```
 
@@ -173,7 +174,7 @@ exec solana-validator \
     --ledger ~/ledger \
     --rpc-port 8899 \
     --gossip-port 8001 \
-    --dynamic-port-range 8002-8014 \
+    --dynamic-port-range 8002-8016 \
     --known-validator 7Np41oeYqPefeNQEHSv1UDhYrehxin3NStELsSKCT4K2 \
     --known-validator GdnSyH3YtwcxFvQrVVJMm1JhTS4QVX7MFsX56uJLUfiZ \
     --known-validator DE1bawNcRJB9rVm3buyMVfr8mBEoyyu73NBovf2oXJsJ \
@@ -193,6 +194,8 @@ exec solana-validator \
     --account-index-exclude-key TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA \
     --only-known-rpc \
     --enable-rpc-transaction-history \
+    --full-rpc-api \
+    --incremental-snapshots \
     --no-port-check
 ```
 
