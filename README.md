@@ -280,10 +280,6 @@ Resolve any issues
 
 `sudo su - sol` to become user `sol` again
 
-`docker ps` and then `docker logs -f CONTAINERNAME` to see the snapshot downloading.
-
-Once that's finished:
-
 `tail -f /mnt/sol-logs/validator.log` to see the logs of the Solana node
 
 `solana-validator monitor` to monitor it
