@@ -39,8 +39,8 @@ sudo ufw allow proto tcp from 192.168.0.0/16 to any port 8899
 sudo ufw allow proto tcp from 192.168.0.0/16 to any port 8900
 sudo ufw allow proto tcp from 10.0.0.0/8 to any port 8899
 sudo ufw allow proto tcp from 10.0.0.0/8 to any port 8900
-sudo ufw allow 8001:8016/tcp
-sudo ufw allow 8001:8016/udp
+sudo ufw allow 8001/tcp
+sudo ufw allow 8000:10000/udp
 sudo ufw allow proto tcp from SOURCEIP1 to any port 443 
 sudo ufw allow proto tcp from SOURCEIP2 to any port 443 
 sudo ufw deny proto tcp from any to any port 443 
@@ -143,7 +143,7 @@ And then `sudo systemctl restart logrotate`
 
 Become user `sol`: `sudo su - sol`
 
-Download and install Solana, replacing the version with the current one: `sh -c "$(curl -sSfL https://release.solana.com/v1.9.9/install)"`
+Download and install Solana, replacing the version with the current one: `sh -c "$(curl -sSfL https://release.solana.com/v1.10.20/install)"`
 
 Paste this to the end of `nano .profile` and then `source .profile`.
 
