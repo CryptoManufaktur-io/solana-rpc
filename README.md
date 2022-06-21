@@ -195,6 +195,7 @@ exec solana-validator \
     --enable-rpc-transaction-history \
     --full-rpc-api \
     --incremental-snapshots \
+    --no-snapshot-fetch \
     --no-port-check
 ```
 
@@ -256,6 +257,11 @@ ExecStart=/home/sol/.local/share/solana/install/active_release/bin/solana-sys-tu
 WantedBy=multi-user.target
 ```
 
+### Grab initial snapshots
+
+The validator is set to start without fetching snapshots, which speeds up startup and keeps it from hanging if an RPC server with highest snapshot isn't actually reachable.
+Get snapshots manually, once, with `./solana-get-snapshots.sh`
+
 ### Enable and start system services
 
 ```
@@ -277,7 +283,13 @@ Resolve any issues
 
 ### Check that validator is running, useful commands
 
-`sudo su - sol` to become user `sol` again
+`./solana-update.sh` - helper script to update Solana, from the main system user that can sudo
+
+`./solana-restart.sh` - helper script to safely restart Solana, from the main system user that can sudo
+
+`./solana-get-snapshots.sh` - helper script to fetch snapshots from Solana Foundation, from the main system user that can sudo. This would only be used during cluster restarts.
+
+`sudo su - sol` to become user `sol` again and run the below commands
 
 `tail -f /mnt/sol-logs/validator.log` to see the logs of the Solana node
 
@@ -285,11 +297,13 @@ Resolve any issues
 
 `solana catchup --our-localhost` to see how far it is from chain head.
 
-It is normal for Solana to take ~30 minutes to catch up after a fresh start.
+It is normal for Solana to take ~20 minutes to catch up after a fresh start.
 
 `grep --extended-regexp 'ERROR|WARN' /mnt/sol-logs/validator.log` to see error and warn logs.
 
 `solana epoch-info` to get information about the epoch.
+
+`solana validators` to get a list of validators, their stake %age and version.
 
 `df -h` to see fill status of ram disks.
 
@@ -298,4 +312,6 @@ It is normal for Solana to take ~30 minutes to catch up after a fresh start.
 `sudo iostat -mdx` as a root-capable user to see NVMe utilization, of interest are `r_await` and `w_await`.
 
 `solana-install init x.y.z` to pull a new version of Solana.
+
+`solana-validator exit -m` for a safe exit of the validator when it has a fresh snapshot and isn't scheduled to be leader
 

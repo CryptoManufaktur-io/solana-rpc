@@ -26,4 +26,5 @@ exec solana-validator \
     --enable-rpc-transaction-history \
     --full-rpc-api \
     --incremental-snapshots \
+    --no-snapshot-fetch \
     --no-port-check
