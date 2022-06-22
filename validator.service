@@ -6,7 +6,7 @@ StartLimitIntervalSec=0
 
 [Service]
 Type=simple
-Restart=on-failure
+Restart=always
 RestartSec=1
 TimeoutStopSec=180
 LimitNOFILE=1000000

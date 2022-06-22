@@ -224,7 +224,7 @@ StartLimitIntervalSec=0
 
 [Service]
 Type=simple
-Restart=on-failure
+Restart=always
 RestartSec=1
 LimitNOFILE=1000000
 LogRateLimitIntervalSec=0
@@ -248,7 +248,7 @@ After=network.target
 
 [Service]
 Type=simple
-Restart=on-failure
+Restart=always
 RestartSec=1
 LogRateLimitIntervalSec=0
 ExecStart=/home/sol/.local/share/solana/install/active_release/bin/solana-sys-tuner --user sol
