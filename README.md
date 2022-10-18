@@ -64,8 +64,8 @@ The following is an opiniated amalgam of both, for Solana mainnet.
 
 Dedicated / baremetal, Solana will run in systemd, not docker.
 
-- 16 core/32 thread CPU that can boost above 3GHz, for example OVH Advance-4 (current-gen) with Epyc 7313 or webnx EPYC 7443
-- 512 GiB (or better) of physical RAM
+- 16 or 24 core CPU that can boost above 3GHz, for example EPYC 7443p
+- 1 TiB of physical RAM if [full indices](https://docs.solana.com/running-validator/validator-start#account-indexing) are desired and accounts are kept in tmpfs to reduce NVMe wear
 - 1TB (or better) of NVMe disk
 - Avoid hardware RAID unless it's 9400/9500 tri mode series, e.g. Dell PERC11. You need TRIM commands to get through to the NVMe
 
@@ -112,7 +112,7 @@ echo 'vm.swappiness=1' | sudo tee --append /etc/sysctl.conf > /dev/null
 sudo sysctl --load
 ```
 
-Accounts will take maybe 60GB under normal circumstances. The swap is there so that
+Accounts will take around 120GB under normal circumstances. The swap is there so that
 it can grow to 512 GB if necessary. You should alert on swap size and restart
 Solana if it starts getting used, which will clear out accounts.
 
