@@ -40,12 +40,14 @@ sudo ufw allow proto tcp from 192.168.0.0/16 to any port 8900
 sudo ufw allow proto tcp from 10.0.0.0/8 to any port 8899
 sudo ufw allow proto tcp from 10.0.0.0/8 to any port 8900
 sudo ufw allow 8001/tcp
-sudo ufw allow 8000:10000/udp
+sudo ufw allow 8000:8014/udp
 sudo ufw allow proto tcp from SOURCEIP1 to any port 443 
 sudo ufw allow proto tcp from SOURCEIP2 to any port 443 
 sudo ufw deny proto tcp from any to any port 443 
 sudo ufw enable
 ```
+
+Note Solana will use UDP ports 8000-10000 locally, after receiving data on the QUIC TPU; but you only need to open the `--dynamic-port-range` to Internet.
 
 ## HAProxy
 
@@ -174,6 +176,7 @@ exec solana-validator \
     --ledger ~/ledger \
     --rpc-port 8899 \
     --gossip-port 8001 \
+    --dynamic-port-range 8000-8014 \
     --known-validator 7Np41oeYqPefeNQEHSv1UDhYrehxin3NStELsSKCT4K2 \
     --known-validator GdnSyH3YtwcxFvQrVVJMm1JhTS4QVX7MFsX56uJLUfiZ \
     --known-validator DE1bawNcRJB9rVm3buyMVfr8mBEoyyu73NBovf2oXJsJ \
