@@ -72,7 +72,7 @@ Dedicated / baremetal, Solana will run in systemd, not docker.
 ## Linux prep
 ### Linux tuning
 
-Ubuntu 20.04 LTS, because that's the supported distribution.
+Ubuntu 20.04 or 22.04 LTS, because that's the supported distribution.
 
 `sudo nano /etc/fstab` and add `,noatime` to options of `/`. Also comment out current swap entries, we'll create a new one.
 
@@ -108,7 +108,7 @@ sudo dd if=/dev/zero of=/swapfile bs=1M count=256K
 sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 echo '/swapfile none swap sw 0 0' | sudo tee --append /etc/fstab > /dev/null
-echo 'vm.swappiness=0' | sudo tee --append /etc/sysctl.conf > /dev/null
+echo 'vm.swappiness=1' | sudo tee --append /etc/sysctl.conf > /dev/null
 sudo sysctl --load
 ```
 
