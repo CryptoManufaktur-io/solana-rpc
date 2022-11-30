@@ -110,6 +110,7 @@ sudo mkswap /swapfile
 echo '/swapfile none swap sw 0 0' | sudo tee --append /etc/fstab > /dev/null
 echo 'vm.swappiness=1' | sudo tee --append /etc/sysctl.conf > /dev/null
 sudo sysctl --load
+sudo swapon -a
 ```
 
 Accounts will take around 120GB under normal circumstances. The swap is there so that
