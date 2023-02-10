@@ -198,13 +198,13 @@ exec solana-validator \
     --only-known-rpc \
     --enable-rpc-transaction-history \
     --full-rpc-api \
-    --no-snapshot-fetch \
-    --no-port-check
+    --rpc-bind-address 0.0.0.0 \
+    --private-rpc \
+    --no-snapshot-fetch
 ```
 
 Then `chmod +x ~/start-validator.sh`
 
-`--no-port-check` allows us to a) make RPC available to traefik and b) firewall it off from the world.
 `--no-voting` makes this RPC only, and keeps us from having to pay 1 to 1.1 SOL/day in fees.
 `--enable-rpc-transaction-history` is necessary for websocket subscriptions to work.
 
