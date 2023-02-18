@@ -74,25 +74,19 @@ Dedicated / baremetal, Solana will run in systemd, not docker.
 
 Ubuntu 20.04 or 22.04 LTS, because that's the supported distribution.
 
-`sudo nano /etc/fstab` and add `,noatime` to options of `/`. Also comment out current swap entries, we'll create a new one.
+`sudo nano /etc/fstab` and add `,noatime` to options of `/`. Also comment out current swap entries, as you won't need swap.
 
 `sudo nano /etc/default/grub` and add `mitigations=off` to `GRUB_CMDLINE_LINUX`. We can do this because it's bare metal. Then `sudo update-grub`.
 
 Consider setting up [unattended-upgrades](https://haydenjames.io/how-to-enable-unattended-upgrades-on-ubuntu-debian/) as well. You can use [ssmtp](https://www.havetheknowhow.com/Configure-the-server/Install-ssmtp.html) to email you in case of failure.
 
-### Set up user, reduce swappiness
+### Set up user
 
 Add a service user for Solana:
 
 ```
 sudo adduser sol
 sudo usermod -aG docker sol
-```
-
-Reduce swappiness:
-```
-echo 'vm.swappiness=1' | sudo tee --append /etc/sysctl.conf > /dev/null
-sudo sysctl --load
 ```
 
 ### Set up log rotation
