@@ -18,8 +18,7 @@ exec solana-validator \
     --expected-genesis-hash 5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d \
     --wal-recovery-mode skip_any_corrupted_record \
     --limit-ledger-size 50000000 \
-    --log /mnt/sol-logs/validator.log \
-    --accounts /mnt/sol-accounts/accounts \
+    --log ~/validator.log \
     --account-index program-id spl-token-owner spl-token-mint \
     --account-index-exclude-key kinXdEcpDQeHPEuQnqmUgtYykqKGVFq6CeVX5iAHJq6 \
     --account-index-exclude-key TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA \

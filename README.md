@@ -80,7 +80,7 @@ Ubuntu 20.04 or 22.04 LTS, because that's the supported distribution.
 
 Consider setting up [unattended-upgrades](https://haydenjames.io/how-to-enable-unattended-upgrades-on-ubuntu-debian/) as well. You can use [ssmtp](https://www.havetheknowhow.com/Configure-the-server/Install-ssmtp.html) to email you in case of failure.
 
-### Set up user, create RAM disks and swap
+### Set up user, reduce swappiness
 
 Add a service user for Solana:
 
@@ -89,33 +89,11 @@ sudo adduser sol
 sudo usermod -aG docker sol
 ```
 
-Create two RAM disks for accounts, logs:
-
+Reduce swappiness:
 ```
-sudo mkdir /mnt/sol-accounts && sudo mkdir /mnt/sol-logs
-echo 'tmpfs /mnt/sol-accounts tmpfs rw,noexec,nodev,nosuid,noatime,size=512G,user=sol 0 0' | \
-  sudo tee --append /etc/fstab > /dev/null
-echo 'tmpfs /mnt/sol-logs tmpfs rw,noexec,nodev,nosuid,noatime,size=56G,user=sol 0 0' | \
-  sudo tee --append /etc/fstab > /dev/null
-sudo mount --all --verbose
-```
-
-Add swap:
-
-```
-sudo swapoff -a
-sudo dd if=/dev/zero of=/swapfile bs=1M count=256K
-sudo chmod 600 /swapfile
-sudo mkswap /swapfile
-echo '/swapfile none swap sw 0 0' | sudo tee --append /etc/fstab > /dev/null
 echo 'vm.swappiness=1' | sudo tee --append /etc/sysctl.conf > /dev/null
 sudo sysctl --load
-sudo swapon -a
 ```
-
-Accounts will take around 120GB under normal circumstances. The swap is there so that
-it can grow to 512 GB if necessary. You should alert on swap size and restart
-Solana if it starts getting used, which will clear out accounts.
 
 ### Set up log rotation
 
@@ -126,7 +104,7 @@ To keep the log ramdisk from filling up
 and paste the following inside it.
 
 ```
-/mnt/sol-logs/validator.log {
+/home/sol/validator.log {
   su sol sol
   daily
   rotate 7
@@ -146,7 +124,10 @@ And then `sudo systemctl restart logrotate`
 
 Become user `sol`: `sudo su - sol`
 
-Download and install Solana, replacing the version with the current one: `sh -c "$(curl -sSfL https://release.solana.com/v1.10.20/install)"`
+Download and install Solana, replacing the version with the current one:
+
+`export VERSION=v1.14.16`
+`sh -c "$(curl -sSfL https://release.solana.com/${VERSION}/install)"`
 
 Paste this to the end of `nano .profile` and then `source .profile`.
 
@@ -190,8 +171,7 @@ exec solana-validator \
     --expected-genesis-hash 5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d \
     --wal-recovery-mode skip_any_corrupted_record \
     --limit-ledger-size 50000000 \
-    --log /mnt/sol-logs/validator.log \
-    --accounts /mnt/sol-accounts/accounts \
+    --log ~/validator.log \
     --account-index program-id spl-token-owner spl-token-mint \
     --account-index-exclude-key kinXdEcpDQeHPEuQnqmUgtYykqKGVFq6CeVX5iAHJq6 \
     --account-index-exclude-key TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA \
@@ -202,6 +182,8 @@ exec solana-validator \
     --private-rpc \
     --no-snapshot-fetch
 ```
+
+Note the indices take a lot of RAM and are only needed for `getProgram` and `getToken` calls. With them, a 1 TiB RAM machine is recommended; without them, a 512 GiB RAM machine will suffice.
 
 Then `chmod +x ~/start-validator.sh`
 
@@ -294,7 +276,7 @@ Resolve any issues
 
 `sudo su - sol` to become user `sol` again and run the below commands
 
-`tail -f /mnt/sol-logs/validator.log` to see the logs of the Solana node
+`tail -f ~/validator.log` to see the logs of the Solana node
 
 `solana-validator monitor` to monitor it
 
@@ -302,7 +284,7 @@ Resolve any issues
 
 It is normal for Solana to take ~20 minutes to catch up after a fresh start.
 
-`grep --extended-regexp 'ERROR|WARN' /mnt/sol-logs/validator.log` to see error and warn logs.
+`grep --extended-regexp 'ERROR|WARN' ~/validator.log` to see error and warn logs.
 
 `solana epoch-info` to get information about the epoch.
 
