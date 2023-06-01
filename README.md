@@ -78,7 +78,7 @@ Ubuntu 20.04 or 22.04 LTS, because that's the supported distribution.
 
 `sudo nano /etc/default/grub` and add `mitigations=off` to `GRUB_CMDLINE_LINUX`. We can do this because it's bare metal. Then `sudo update-grub`.
 
-Consider setting up [unattended-upgrades](https://haydenjames.io/how-to-enable-unattended-upgrades-on-ubuntu-debian/) as well. You can use [ssmtp](https://www.havetheknowhow.com/Configure-the-server/Install-ssmtp.html) to email you in case of failure.
+Consider setting up [unattended-upgrades](https://haydenjames.io/how-to-enable-unattended-upgrades-on-ubuntu-debian/) as well. You can use [msmtp](https://caupo.ee/blog/2020/07/05/how-to-install-msmtp-to-debian-10-for-sending-emails-with-gmail/) to email you in case of failure.
 
 ### Set up user
 
@@ -120,7 +120,7 @@ Become user `sol`: `sudo su - sol`
 
 Download and install Solana, replacing the version with the current one:
 
-`export VERSION=v1.14.16`
+`export VERSION=v1.16.0`
 `sh -c "$(curl -sSfL https://release.solana.com/${VERSION}/install)"`
 
 Paste this to the end of `nano .profile` and then `source .profile`.
@@ -186,7 +186,7 @@ Then `chmod +x ~/start-validator.sh`
 
 Accounts and logs are in ram disks.
 
-### Set up systemd service files
+### Set up systemd service file
 
 Come back out of the sol user so you're on a user with root privileges again: `exit`
 
@@ -198,7 +198,6 @@ You can use the `validator.service` from this repo or `sudo nano /etc/systemd/sy
 [Unit]
 Description=Solana Validator
 After=network.target
-Wants=systuner.service
 StartLimitIntervalSec=0
 
 [Service]
@@ -216,43 +215,22 @@ ExecStart=/home/sol/start-validator.sh
 WantedBy=multi-user.target
 ```
 
-Create the system tuning service it requires.
+### Tune the system
 
-You can use the `systuner.service` from this repo or `sudo nano /etc/systemd/system/systuner.service` and paste
-
-```
-[Unit]
-Description=Solana System Tuner
-After=network.target
-
-[Service]
-Type=simple
-Restart=always
-RestartSec=1
-LogRateLimitIntervalSec=0
-ExecStart=/home/sol/.local/share/solana/install/active_release/bin/solana-sys-tuner --user sol
-
-[Install]
-WantedBy=multi-user.target
-```
+This is not optional! The systuner service has been removed since Solana v1.16.0. Follow [the instructions](https://docs.solana.com/running-validator/validator-start#system-tuning), then log out and back in.
 
 ### Grab initial snapshots
 
 The validator is set to start without fetching snapshots, which speeds up startup and keeps it from hanging if an RPC server with highest snapshot isn't actually reachable.
 Get snapshots manually, once, with `./solana-get-snapshots.sh`
 
-### Enable and start system services
+### Enable and start system service
 
 ```
-sudo systemctl enable --now systuner.service
 sudo systemctl enable --now validator.service
 ```
 
-Check their status:
-
-```
-sudo systemctl status systuner.service
-```
+Check status:
 
 ```
 sudo systemctl status validator.service
