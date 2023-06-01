@@ -1,6 +1,6 @@
 # solana-rpc
 
-Solana RPC only node with traefik
+Solana RPC only node with traefik. Solana runs in systemd, and traefik in Docker.
 
 # Prerequisites
 
