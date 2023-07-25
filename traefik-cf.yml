@@ -1,4 +1,4 @@
-version: "3.4"
+version: "3.9"
 x-logging: &logging
   logging:
     driver: json-file
@@ -8,15 +8,15 @@ x-logging: &logging
 
 services:
   traefik:
-    image: traefik:v2.9
-    restart: ${RESTART}
+    image: traefik:v2.10
+    restart: unless-stopped
     command:
-#      - --log.level=DEBUG
 #      - --accesslog=true
 #      - --accesslog.format=json
 #      - --accesslog.fields.defaultmode=keep
 #      - --accesslog.fields.headers.defaultmode=keep
 #      - --certificatesResolvers.letsencrypt.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
+      - --log.level=${LOG_LEVEL}
       - --providers.file.filename=/traefik-dynamic.toml
       - --providers.file.watch=true
       - --certificatesresolvers.letsencrypt.acme.dnschallenge=true
@@ -27,31 +27,45 @@ services:
       - --entrypoints.web.http.redirections.entrypoint.to=websecure
       - --entrypoints.web.http.redirections.entrypoint.scheme=https
       - --entrypoints.websecure.address=:${TRAEFIK_WEB_PORT}
+      - --metrics
+      - --metrics.prometheus
     ports:
       - ${TRAEFIK_WEB_PORT}:${TRAEFIK_WEB_PORT}/tcp
       - ${TRAEFIK_WEB_HTTP_PORT}:${TRAEFIK_WEB_HTTP_PORT}/tcp
     environment:
-      - CLOUDFLARE_EMAIL=${CF_EMAIL}
-      - CLOUDFLARE_DNS_API_TOKEN=${CF_API_TOKEN}
+      - CF_DNS_API_TOKEN=${CF_API_TOKEN}
+      - CF_ZONE_API_TOKEN=${CF_ZONE_API_TOKEN:-}
     volumes:
       - certs:/letsencrypt
       - ./traefik-dynamic.toml:/traefik-dynamic.toml
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+    labels:
+      - metrics.scrape=true
+      - metrics.path=/metrics
+      - metrics.port=8080
     <<: *logging
-    depends_on:
-      - cf-ddns
+
   cf-ddns:
-    image: oznu/cloudflare-ddns:latest
-    restart: ${RESTART}
+    image: ghcr.io/joshuaavalon/cloudflare-ddns:3
+    restart: "unless-stopped"
     environment:
-      - API_KEY=${CF_API_TOKEN}
-      - ZONE=${DOMAIN}
-      - SUBDOMAIN=${DDNS_SUBDOMAIN}
-      - PROXIED=${DDNS_PROXY}
+      - CF_DNS__LOG_LEVEL=${LOG_LEVEL:-info}
+      - CF_DNS__AUTH__SCOPED_TOKEN=${CF_API_TOKEN}
+      - CF_DNS__DOMAINS_0__ZONE_NAME=${DOMAIN}
+      - CF_DNS__DOMAINS_0__ZONE_ID=${CF_ZONE_ID:-}
+      - CF_DNS__DOMAINS_0__NAME=${DDNS_SUBDOMAIN}.${DOMAIN}
+      - CF_DNS__DOMAINS_0__PROXIED=${DDNS_PROXY}
+      - CF_DNS__DOMAINS_0__CREATE=true
+      - CF_DNS__DOMAINS_0__TYPE=A
+      - CF_DNS__DOMAINS_1__ZONE_NAME=${DOMAIN}
+      - CF_DNS__DOMAINS_1__ZONE_ID=${CF_ZONE_ID:-}
+      - CF_DNS__DOMAINS_1__NAME=${DDNS_SUBDOMAIN}.${DOMAIN}
+      - CF_DNS__DOMAINS_1__PROXIED=${DDNS_PROXY}
+      - CF_DNS__DOMAINS_1__CREATE=true
+      - CF_DNS__DOMAINS_1__TYPE=AAAA
     volumes:
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     <<: *logging
+
 volumes:
   certs:

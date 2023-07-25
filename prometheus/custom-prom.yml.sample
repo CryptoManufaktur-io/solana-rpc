@@ -1,0 +1,12 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: example-a
+    environment: example
+
+remote_write:
+  - url: <Your Metrics instance remote_write endpoint>
+    basic_auth:
+      username: <Your Metrics instance ID>
+      password: <Your Grafana.com API Key>
