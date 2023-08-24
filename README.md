@@ -217,7 +217,7 @@ WantedBy=multi-user.target
 
 ### Tune the system
 
-This is not optional! The systuner service has been removed since Solana v1.16.0. Follow [the instructions](https://docs.solana.com/running-validator/validator-start#system-tuning), then log out and back in.
+Follow [the instructions](https://docs.solana.com/running-validator/validator-start#system-tuning), then log out and back in. Tuning is a required step.
 
 ### Grab initial snapshots
 
