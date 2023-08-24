@@ -120,7 +120,7 @@ Become user `sol`: `sudo su - sol`
 
 Download and install Solana, replacing the version with the current one:
 
-`export VERSION=v1.16.0`
+`export VERSION=v1.16.9`
 `sh -c "$(curl -sSfL https://release.solana.com/${VERSION}/install)"`
 
 Paste this to the end of `nano .profile` and then `source .profile`.
