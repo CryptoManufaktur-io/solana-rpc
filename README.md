@@ -120,7 +120,7 @@ Become user `sol`: `sudo su - sol`
 
 Download and install Solana, replacing the version with the current one:
 
-`export VERSION=v1.16.9`
+`export VERSION=v1.17.11`
 `sh -c "$(curl -sSfL https://release.solana.com/${VERSION}/install)"`
 
 Paste this to the end of `nano .profile` and then `source .profile`.
@@ -174,6 +174,7 @@ exec solana-validator \
     --full-rpc-api \
     --rpc-bind-address 0.0.0.0 \
     --private-rpc \
+    --use-snapshot-archives-at-startup when-newest \
     --no-snapshot-fetch
 ```
 

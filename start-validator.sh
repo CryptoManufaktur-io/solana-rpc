@@ -27,4 +27,5 @@ exec solana-validator \
     --full-rpc-api \
     --rpc-bind-address 0.0.0.0 \
     --private-rpc \
+    --use-snapshot-archives-at-startup when-newest \
     --no-snapshot-fetch
