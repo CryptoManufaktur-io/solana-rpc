@@ -65,7 +65,7 @@ The following is an opiniated amalgam of both, for Solana mainnet.
 Dedicated / baremetal, Solana will run in systemd, not docker.
 
 - 16 or 24 core CPU that can boost above 3GHz, for example EPYC 7443p
-- 1 TiB of physical RAM if [full indices](https://docs.solana.com/running-validator/validator-start#account-indexing) are desired and accounts are kept in tmpfs to reduce NVMe wear
+- 1 TiB of physical RAM if [full indices](https://docs.solana.com/running-validator/validator-start#account-indexing) are desired
 - 1TB (or better) of NVMe disk
 - Avoid hardware RAID unless it's 9400/9500 tri mode series, e.g. Dell PERC11. You need TRIM commands to get through to the NVMe
 
@@ -91,7 +91,7 @@ sudo usermod -aG docker sol
 
 ### Set up log rotation
 
-To keep the log ramdisk from filling up
+To keep the log disk from filling up
 
 `sudo nano /etc/logrotate.d/solana`
 
@@ -185,8 +185,6 @@ Then `chmod +x ~/start-validator.sh`
 `--no-voting` makes this RPC only, and keeps us from having to pay 1 to 1.1 SOL/day in fees.
 `--enable-rpc-transaction-history` is necessary for websocket subscriptions to work.
 
-Accounts and logs are in ram disks.
-
 ### Set up systemd service file
 
 Come back out of the sol user so you're on a user with root privileges again: `exit`
@@ -263,7 +261,7 @@ It is normal for Solana to take ~20 minutes to catch up after a fresh start.
 
 `solana validators` to get a list of validators, their stake %age and version.
 
-`df -h` to see fill status of ram disks.
+`df -h` to see fill status of disks.
 
 `htop` to see CPU and memory use.
 
