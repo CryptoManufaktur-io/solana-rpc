@@ -271,3 +271,10 @@ It is normal for Solana to take ~20 minutes to catch up after a fresh start.
 
 `solana-validator exit -m` for a safe exit of the validator when it has a fresh snapshot and isn't scheduled to be leader
 
+This is solana-rpc v1
+
+## Metrics and logs
+
+To get metrics and logs from solana-watchtower, you need to run `watchtower.sh` which will run solana-watchtower with 15 seconds interval and write the logs to a file watchtower.log in the same directory. Promtail can then be configured to send those logs to a central logging system as required.
+
+There is also an option of running another container watchtower metrics that will monitor the file and read the latest values. It will also publish those metrics on port 8000 so prometheus can scrape them. To run that, just add `watchtower-metrics.yml` to `.env` file.

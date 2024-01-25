@@ -1,0 +1,25 @@
+version: "3.9"
+x-logging: &logging
+  logging:
+    driver: json-file
+    options:
+      max-size: 10m
+      max-file: "3"
+
+services:
+  watchtower-metrics:
+    image: watchtower-metrics
+    build:
+      context: ./watchtower-metrics
+    restart: unless-stopped
+    pull_policy: build
+    labels:
+      - metrics.scrape=true
+      - metrics.path=/metrics
+      - metrics.port=8000
+    # ports:
+    #   - 8000:8000/tcp
+    volumes:
+      - $PWD/watchtower.log:/app/watchtower.log:ro
+    <<: *logging
+

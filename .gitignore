@@ -1,3 +1,4 @@
 .env*
 docker-compose.yml
 traefik-dynamic.toml
+watchtower.log*
