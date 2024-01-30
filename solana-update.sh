@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Update Solana without needing to sudo into sol
-set -e
+set -eu
 
-if [ -z "$1" ]; then
+if [ -z "${1:-}" ]; then
   echo "Usage: $0 DESIRED-VERSION"
   exit 0
 fi
