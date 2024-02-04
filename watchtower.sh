@@ -17,7 +17,7 @@ else
 Description=Solana Watchtower Service
 
 [Service]
-ExecStart=/bin/bash -c \"solana-watchtower --interval 15 2>&1 | tee >(rotatelogs -n 5 $WORK_DIR/watchtower.log 30M)\"
+ExecStart=/bin/bash -c \"solana-watchtower --interval 15 2>&1 | tee >(rotatelogs -t $WORK_DIR/watchtower.log 30M)\"
 Restart=always
 User=$USERNAME
 WorkingDirectory=$WORK_DIR
