@@ -12,7 +12,7 @@ services:
     build:
       context: ./watchtower-metrics
     restart: unless-stopped
-    pull_policy: build
+    pull_policy: never
     labels:
       - metrics.scrape=true
       - metrics.path=/metrics
