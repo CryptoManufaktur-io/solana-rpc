@@ -22,3 +22,5 @@ scrape_configs:
          - __address__
          - __meta_docker_container_label_metrics_port
          target_label: __address__
+       - source_labels: [__meta_docker_container_label_metrics_network]
+         target_label: network
