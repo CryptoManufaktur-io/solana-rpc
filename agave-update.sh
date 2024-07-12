@@ -7,4 +7,4 @@ if [ -z "${1:-}" ]; then
   exit 0
 fi
 
-sudo -u sol /home/sol/.local/share/solana/install/active_release/bin/solana-install init $1
+sudo -u sol /home/sol/.local/share/solana/install/active_release/bin/agave-install init $1

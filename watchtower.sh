@@ -2,7 +2,7 @@
 
 # Get current directory and service name
 WORK_DIR=$(dirname "$(readlink -f "${BASH_SOURCE}")")
-SERVICE_NAME="solana-watchtower"
+SERVICE_NAME="agave-watchtower"
 USERNAME=$(whoami)
 
 # Install log rotate
@@ -14,10 +14,10 @@ if systemctl is-active --quiet "$SERVICE_NAME"; then
 else
     # Create the service unit file
     SERVICE_UNIT="[Unit]
-Description=Solana Watchtower Service
+Description=Agave Watchtower Service
 
 [Service]
-ExecStart=/bin/bash -c \"solana-watchtower --config /home/sol/.config/solana/cli/config.yml --interval 15 2>&1 | tee >(rotatelogs -t $WORK_DIR/watchtower.log 30M)\"
+ExecStart=/bin/bash -c \"agave-watchtower --config /home/sol/.config/solana/cli/config.yml --interval 15 2>&1 | tee >(rotatelogs -t $WORK_DIR/watchtower.log 30M)\"
 Restart=always
 User=$USERNAME
 WorkingDirectory=$WORK_DIR

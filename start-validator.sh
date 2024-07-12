@@ -1,5 +1,5 @@
 #!/bin/sh
-exec solana-validator \
+exec agave-validator \
     --identity ~/validator-keypair.json \
     --no-voting \
     --ledger ~/ledger \

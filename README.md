@@ -72,7 +72,7 @@ Dedicated / baremetal, Solana will run in systemd, not docker.
 ## Linux prep
 ### Linux tuning
 
-Ubuntu 20.04 or 22.04 LTS, because that's the supported distribution.
+Ubuntu 22.04 or 24.04 LTS, because that's the supported distribution.
 
 `sudo nano /etc/fstab` and add `,noatime` to options of `/`. Also comment out current swap entries, as you won't need swap.
 
@@ -120,8 +120,8 @@ Become user `sol`: `sudo su - sol`
 
 Download and install Solana, replacing the version with the current one:
 
-`export VERSION=v1.17.11`
-`sh -c "$(curl -sSfL https://release.solana.com/${VERSION}/install)"`
+`export VERSION=v1.18.18`
+`sh -c "$(curl -sSfL https://release.anza.xyz/${VERSION}/install)"`
 
 Paste this to the end of `nano .profile` and then `source .profile`.
 
@@ -146,7 +146,7 @@ You can use the `start-validator.sh` from this repo or `nano ~/start-validator.s
 
 ```
 #!/bin/sh
-exec solana-validator \
+exec agave-validator \
     --identity ~/validator-keypair.json \
     --no-voting \
     --ledger ~/ledger \
@@ -239,9 +239,9 @@ Resolve any issues
 
 ### Check that validator is running, useful commands
 
-`./solana-update.sh` - helper script to update Solana, from the main system user that can sudo
+`./agave-update.sh` - helper script to update Solana, from the main system user that can sudo
 
-`./solana-restart.sh` - helper script to safely restart Solana, from the main system user that can sudo
+`./agave-restart.sh` - helper script to safely restart Solana, from the main system user that can sudo
 
 `./solana-get-snapshots.sh` - helper script to fetch snapshots from Solana Foundation, from the main system user that can sudo. This would only be used during cluster restarts.
 
@@ -249,7 +249,7 @@ Resolve any issues
 
 `tail -f ~/validator.log` to see the logs of the Solana node
 
-`solana-validator monitor` to monitor it
+`agave-validator monitor` to monitor it
 
 `solana catchup --our-localhost` to see how far it is from chain head.
 
@@ -267,14 +267,14 @@ It is normal for Solana to take ~20 minutes to catch up after a fresh start.
 
 `sudo iostat -mdx` as a root-capable user to see NVMe utilization, of interest are `r_await` and `w_await`.
 
-`solana-install init x.y.z` to pull a new version of Solana.
+`agave-install init x.y.z` to pull a new version of Solana.
 
-`solana-validator exit -m` for a safe exit of the validator when it has a fresh snapshot and isn't scheduled to be leader
+`agave-validator exit -m` for a safe exit of the validator when it has a fresh snapshot and isn't scheduled to be leader
 
 This is solana-rpc v1
 
 ## Metrics and logs
 
-To get metrics and logs from solana-watchtower, you need to run `watchtower.sh` which will run solana-watchtower with 15 seconds interval and write the logs to a file watchtower.log in the same directory. Promtail can then be configured to send those logs to a central logging system as required.
+To get metrics and logs from solana-watchtower, you need to run `watchtower.sh` which will run agave-watchtower with 15 seconds interval and write the logs to a file watchtower.log in the same directory. Promtail can then be configured to send those logs to a central logging system as required.
 
 There is also an option of running another container watchtower metrics that will monitor the file and read the latest values. It will also publish those metrics on port 8000 so prometheus can scrape them. To run that, just add `watchtower-metrics.yml` to `.env` file.
