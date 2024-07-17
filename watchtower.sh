@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Get current directory and service name
-WORK_DIR=/home/sol
+WORK_DIR=$(dirname "$(readlink -f "${BASH_SOURCE}")") # Note this should remain this, it just directory to save log file from watchtower
 SERVICE_NAME="agave-watchtower"
 USERNAME=sol
 
