@@ -1,9 +1,12 @@
 #!/bin/bash
 
 # Get current directory and service name
-WORK_DIR=/home/sol
+WORK_DIR=$(dirname "$(readlink -f "${BASH_SOURCE}")") # Note this should remain this, it just directory to save log file from watchtower
 SERVICE_NAME="agave-watchtower"
 USERNAME=sol
+
+# Create log file and change permissions to everyone readwrite-execute
+sudo touch watchtower.log && sudo chmod 666 watchtower.log
 
 # Install log rotate
 sudo apt update && sudo apt install -y apache2-utils

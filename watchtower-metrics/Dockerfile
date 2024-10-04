@@ -5,7 +5,6 @@ FROM python:3.8-slim
 WORKDIR /app
 
 # Copy the Python script and requirements file into the container at /app
-# COPY getall-monitor.py /app/getall.py
 COPY getall-tail.py /app/getall.py
 
 # Install required Python packages
