@@ -1,4 +1,3 @@
-version: "3.9"
 x-logging: &logging
   logging:
     driver: json-file
@@ -8,7 +7,7 @@ x-logging: &logging
 
 services:
   traefik:
-    image: traefik:v2.10
+    image: traefik:latest
     restart: unless-stopped
     command:
 #      - --accesslog=true
