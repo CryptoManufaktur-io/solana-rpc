@@ -8,7 +8,7 @@ Type=simple
 Restart=always
 RestartSec=1
 TimeoutStopSec=180
-LimitNOFILE=1000000
+LimitNOFILE=2000000
 LogRateLimitIntervalSec=0
 User=sol
 Environment=PATH=/home/sol/.local/share/solana/install/active_release/bin:/usr/bin:$PATH

@@ -118,9 +118,9 @@ And then `sudo systemctl restart logrotate`
 
 Become user `sol`: `sudo su - sol`
 
-Download and install Solana, replacing the version with the current one:
+Download and install Solana Agave, replacing the version with the current one:
 
-`export VERSION=v1.18.18`
+`export VERSION=v2.0.15`
 `sh -c "$(curl -sSfL https://release.anza.xyz/${VERSION}/install)"`
 
 Paste this to the end of `nano .profile` and then `source .profile`.
@@ -203,7 +203,7 @@ StartLimitIntervalSec=0
 Type=simple
 Restart=always
 RestartSec=1
-LimitNOFILE=1000000
+LimitNOFILE=2000000
 LogRateLimitIntervalSec=0
 User=sol
 Environment=PATH=/home/sol/.local/share/solana/install/active_release/bin:/usr/bin:/bin
