@@ -10,10 +10,14 @@ services:
     image: traefik-aws
     build:
       context: ./traefik
-    restart: ${RESTART}
+    restart: unless-stopped
     command:
-#      - --log.level=DEBUG
+#      - --accesslog=true
+#      - --accesslog.format=json
+#      - --accesslog.fields.defaultmode=keep
+#      - --accesslog.fields.headers.defaultmode=keep
 #      - --certificatesResolvers.letsencrypt.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
+      - --log.level=${LOG_LEVEL}
       - --providers.file.filename=/traefik-dynamic.toml
       - --providers.file.watch=true
       - --certificatesresolvers.letsencrypt.acme.dnschallenge=true
