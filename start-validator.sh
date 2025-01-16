@@ -28,4 +28,6 @@ exec agave-validator \
     --rpc-bind-address 0.0.0.0 \
     --private-rpc \
     --use-snapshot-archives-at-startup when-newest \
+    --block-verification-method unified-scheduler \
+    --unified-scheduler-handler-threads 12 \
     --no-snapshot-fetch

@@ -120,7 +120,7 @@ Become user `sol`: `sudo su - sol`
 
 Download and install Solana Agave, replacing the version with the current one:
 
-`export VERSION=v2.0.15`
+`export VERSION=v2.1.9`
 `sh -c "$(curl -sSfL https://release.anza.xyz/${VERSION}/install)"`
 
 Paste this to the end of `nano .profile` and then `source .profile`.
@@ -175,6 +175,8 @@ exec agave-validator \
     --rpc-bind-address 0.0.0.0 \
     --private-rpc \
     --use-snapshot-archives-at-startup when-newest \
+    --block-verification-method unified-scheduler \
+    --unified-scheduler-handler-threads 12 \
     --no-snapshot-fetch
 ```
 
