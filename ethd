@@ -512,7 +512,7 @@ version() {
             ;;&
         *traefik-cf.yml* )
             echo "CloudFlare DDNS"
-            docompose exec cf-ddns grep version /app/package.json
+            docompose exec cf-ddns /updater/ddns-updater version
     esac
 }
 
