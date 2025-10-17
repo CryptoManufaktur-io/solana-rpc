@@ -6,7 +6,7 @@ SERVICE_NAME="agave-watchtower"
 USERNAME=sol
 
 # Create log file and change permissions to everyone readwrite-execute
-sudo touch watchtower.log && sudo chmod 666 watchtower.log
+sudo touch /tmp/solana-rpc-watchtower.log && sudo chmod 666 /tmp/solana-rpc-watchtower.log
 
 # Install log rotate
 sudo apt update && sudo apt install -y apache2-utils
@@ -20,7 +20,7 @@ else
 Description=Agave Watchtower Service
 
 [Service]
-ExecStart=/bin/bash -c \"agave-watchtower --config /home/sol/.config/solana/cli/config.yml --interval 15 2>&1 | tee >(rotatelogs -t $WORK_DIR/watchtower.log 30M)\"
+ExecStart=/bin/bash -c \"agave-watchtower --config /home/sol/.config/solana/cli/config.yml --interval 15 2>&1 | tee >(rotatelogs -t /tmp/solana-rpc-watchtower.log 30M)\"
 Restart=always
 User=$USERNAME
 WorkingDirectory=$WORK_DIR

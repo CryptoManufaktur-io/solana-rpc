@@ -19,6 +19,6 @@ services:
     # ports:
     #   - 8000:8000/tcp
     volumes:
-      - $PWD/watchtower.log:/app/watchtower.log:ro
+      - /tmp/solana-rpc-watchtower.log:/app/watchtower.log:ro
     <<: *logging
 
